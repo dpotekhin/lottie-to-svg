@@ -27,7 +27,7 @@ module.exports = (document, animationData, opts, startFrame, endFrame ) =>
 			instance.addEventListener("DOMLoaded", () => {
 
 				totalFrames = instance.getDuration(true);
-				console.log('totalFrames: ', totalFrames );
+				console.log('Total frames: ', totalFrames );
 
 				interval = setInterval( renderFrame, 10 );
 				// resolve(container.innerHTML);
@@ -46,12 +46,12 @@ module.exports = (document, animationData, opts, startFrame, endFrame ) =>
 				});
 				// instance.updateTextDocumentData();
 				
-				if( (endFrame === true && currentFrame <= totalFrames) || ( endFrame && currentFrame < endFrame) ){
+				if( (endFrame === true && currentFrame < totalFrames-1 ) || ( endFrame && currentFrame < endFrame) ){
 					currentFrame++;
 					return;
 				}
 
-				console.log('complete');
+				// console.log('complete');
 
 				clearInterval( interval );
 				resolve(frames);
