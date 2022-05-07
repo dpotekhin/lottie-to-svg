@@ -76,17 +76,28 @@ const cleanupSVG = async ( data ) => {
 
   }
 
-  removeClippingMasks( jObj.svg.g );
+  _removeClippingMasks2( jObj.svg.g );
 
   return builder.buildObject(jObj);
   return JSON.stringify(jObj,true,'  '); // !!!
   return data; // !!!
 
-  //
-  function removeClippingMasks( nd ){
+}
+
+//
+  function _removeClippingMasks2( nd ){
+    nd.forEach(function(_nd,i){
+      if( _nd.$ && _nd.$['clip-path'] ) delete _nd.$['clip-path'];
+      if( _nd.g ) _removeClippingMasks2( _nd.g );
+    });
+  }
+
+//
+/*
+  function _removeClippingMasks( nd ){
     
     if( !nd || !nd.length ) {
-      // console.log('???', nd);      
+      // console.log('???', nd);   
       return nd;
     }
 
@@ -112,23 +123,21 @@ const cleanupSVG = async ( data ) => {
         ndt.push( _nd );
       }
 
-      if( !maskFound ) removeClippingMasks(_nd.g);
+      if( !maskFound ) _removeClippingMasks(_nd.g);
 
     });
 
     nd.length = 0;
-    // removeClippingMasks(ndt);
+
     ndt.forEach(function(v) {
       nd.push(v);
     });
 
-    if( maskFound ) removeClippingMasks(nd);
+    if( maskFound ) _removeClippingMasks(nd);
 
     return nd;
 
   }
-
-}
-
+*/
 
 init();
